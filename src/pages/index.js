@@ -31,8 +31,8 @@ const DEFAULT_IMAGES = [
 class HomeIndex extends React.Component {
 
     render() {
-        const siteTitle = "Gatsby Starter - Strata"
-        const siteDescription = "Site description"
+        const siteTitle = "Séan Poynter-Smith"
+        const siteDescription = "Personal site for a Web Developer in Windsor, UK"
 
         return (
             <Layout>
@@ -88,10 +88,8 @@ class HomeIndex extends React.Component {
                             <div className="4u 12u$(small)">
                                 <ul className="labeled-icons">
                                     <li>
-                                        <h3 className="icon fa-home"><span className="label">Address</span></h3>
-                                        1234 Somewhere Rd.<br />
-                                        Nashville, TN 00000<br />
-                                        United States
+                                        <h3 className="icon fa-home"><span className="label">Location</span></h3>
+                                        Windsor,UK
                                     </li>
                                     <li>
                                         <h3 className="icon fa-mobile"><span className="label">Phone</span></h3>
