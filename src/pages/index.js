@@ -71,10 +71,16 @@ class HomeIndex extends React.Component {
 
                     <section id="three">
                         <h2>Get in touch</h2>
+                        <form name="contact" netlify netlify-honeypot="bot-field" hidden>
+                            <input type="text" name="name" />
+                            <input type="email" name="email" />
+                            <textarea name="message"></textarea>
+                        </form>
                         {/* <p>Accumsan pellentesque commodo blandit enim arcu non at amet id arcu magna. Accumsan orci faucibus id eu lorem semper nunc nisi lorem vulputate lorem neque lorem ipsum dolor.</p> */}
                         <div className="row">
                             <div className="8u 12u$(small)">
                                 <form name="contact" method="post" netlify>
+                                <input type="hidden" name="contact" value="contact"/>
                                     <div className="row uniform 50%">
                                         <div className="6u 12u$(xsmall)"><input type="text" name="name" id="name" placeholder="Name" /></div>
                                         <div className="6u 12u$(xsmall)"><input type="email" name="email" id="email" placeholder="Email" /></div>
