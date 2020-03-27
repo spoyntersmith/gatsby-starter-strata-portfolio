@@ -71,21 +71,68 @@ class HomeIndex extends React.Component {
 
                     <section id="three">
                         <h2>Get in touch</h2>
-                        {/* <p>Accumsan pellentesque commodo blandit enim arcu non at amet id arcu magna. Accumsan orci faucibus id eu lorem semper nunc nisi lorem vulputate lorem neque lorem ipsum dolor.</p> */}
                         <div className="row">
-                            <div className="8u 12u$(small)">
-                                <form name="contact" method="post" netlify hidden>
-                                <input type="hidden" name="contact" value="contact"/>
-                                    <div className="row uniform 50%">
-                                        <div className="6u 12u$(xsmall)"><input type="text" name="name" id="name" placeholder="Name" /></div>
-                                        <div className="6u 12u$(xsmall)"><input type="email" name="email" id="email" placeholder="Email" /></div>
-                                        <div className="12u"><textarea name="message" id="message" placeholder="Message" rows="4"></textarea></div>
-                                    </div>
+                        <div className="8u 12u$(small)">
+                        <div className="row uniform 50%">
+                        <!-- A little help for the Netlify post-processing bots -->
+                        <form name="contact" netlify netlify-honeypot="bot-field" hidden>
+                        <input type="text" name="name" />
+                        <input type="email" name="email" />
+                        <textarea name="message"></textarea>
+                        </form>
+
+                        <div id="root"></div>
+
+                        <script type="text/babel">
+
+                        const encode = (data) => {
+                            return Object.keys(data)
+                                .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
+                                .join("&");
+                        }
+
+                        class ContactForm extends React.Component {
+                            constructor(props) {
+                            super(props);
+                            this.state = { name: "", email: "", message: "" };
+                            }
+
+                            /* Here’s the juicy bit for posting the form submission */
+
+                            handleSubmit = e => {
+                            fetch("/", {
+                                method: "POST",
+                                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                                body: encode({ "form-name": "contact", ...this.state })
+                            })
+                                .then(() => alert("Success!"))
+                                .catch(error => alert(error));
+
+                            e.preventDefault();
+                            };
+
+                            handleChange = e => this.setState({ [e.target.name]: e.target.value });
+
+                            render() {
+                            const { name, email, message } = this.state;
+                            return (
+                                <form onSubmit={this.handleSubmit}>
+                                <div className="6u 12u$(xsmall)"><input type="text" name="name" value={name} onChange={this.handleChange} /></div>
+                                <div className="6u 12u$(xsmall)"><input type="email" name="email" value={email} onChange={this.handleChange} /></div>
+                                <div className="12u"><textarea name="message" value={message} onChange={this.handleChange} rows="4"/></div>
+                                <p>
+                                    <button type="submit">Send</button>
+                                </p>
                                 </form>
-                                <ul className="actions">
-                                    <li><input type="submit" value="Send message" /></li>
-                                </ul>
-                            </div>
+                            );
+                            }
+                        }
+
+                        ReactDOM.render(<ContactForm />, document.getElementById("root"));
+
+                        </script>
+                            </div></div>
+
                             <div className="4u 12u$(small)">
                                 <ul className="labeled-icons">
                                     <li>
@@ -102,6 +149,7 @@ class HomeIndex extends React.Component {
                                     </li> */}
                                 </ul>
                             </div>
+
                         </div>
                     </section>
 
