@@ -3,7 +3,7 @@ import Helmet from 'react-helmet'
 
 import Layout from '../components/layout'
 // import Lightbox from 'react-images'
-import Gallery from '../components/Gallery'
+// import Gallery from '../components/Gallery'
 
 import thumb01 from '../assets/images/thumbs/01.jpg'
 import thumb02 from '../assets/images/thumbs/02.jpg'
@@ -79,8 +79,11 @@ class HomeIndex extends React.Component {
                         {/* <p>Accumsan pellentesque commodo blandit enim arcu non at amet id arcu magna. Accumsan orci faucibus id eu lorem semper nunc nisi lorem vulputate lorem neque lorem ipsum dolor.</p> */}
                         <div className="row">
                             <div className="8u 12u$(small)">
-                                <form name="contact" method="post" netlify>
-                                <input type="hidden" name="form-name" value="contact"/>
+                                
+                                <form name="contact" method="post" data-netlify="true" data-netlify-honeypot="bot-field">
+                                <input type="hidden" name="bot-field" />
+                                <input type="hidden" name="form-name" value="contact" />
+                                
                                     <div className="row uniform 50%">
                                         <div className="6u 12u$(xsmall)"><input type="text" name="name" id="name" placeholder="Name" /></div>
                                         <div className="6u 12u$(xsmall)"><input type="email" name="email" id="email" placeholder="Email" /></div>
