@@ -90,10 +90,11 @@ class HomeIndex extends React.Component {
                                         <div className="12u"><textarea name="message" id="message" placeholder="Message" rows="4"></textarea></div>
                                     </div>
                                     <div data-netlify-recaptcha="true"></div>
+                                    <ul className="actions">
+                                        <li><button type="submit" value="Send message" /></li>
+                                    </ul>
                                 </form>
-                                <ul className="actions">
-                                    <li><input type="submit" value="Send message" /></li>
-                                </ul>
+                                
                             </div>
                             <div className="4u 12u$(small)">
                                 <ul className="labeled-icons">
