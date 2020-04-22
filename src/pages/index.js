@@ -1,5 +1,7 @@
 import React from 'react'
 import Helmet from 'react-helmet'
+import ReCAPTCHA from 'react-google-recaptcha'
+
 
 import Layout from '../components/layout'
 // import Lightbox from 'react-images'
@@ -116,7 +118,7 @@ class HomeIndex extends React.Component {
                                         <div className="6u 12u$(xsmall)"><input type="email" name="email" id="email" value={email} onChange={this.handleChange} placeholder="Email" /></div>
                                         <div className="12u"><textarea name="message" id="message" value={message} onChange={this.handleChange} placeholder="Message" rows="4"></textarea></div>
                                     </div>
-                                    <div data-netlify-recaptcha="true"></div>
+                                    <ReCAPTCHA sitekey="SITE_RECAPTCHA_KEY" />
                                     <ul className="actions">
                                         <li><button type="submit">Send message</button></li>
                                     </ul>
