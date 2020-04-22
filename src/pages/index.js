@@ -117,10 +117,11 @@ class HomeIndex extends React.Component {
                                         <div className="12u"><textarea name="message" id="message" value={message} onChange={this.handleChange} placeholder="Message" rows="4"></textarea></div>
                                     </div>
                                     <div data-netlify-recaptcha="true"></div>
+                                    <ul className="actions">
+                                        <li><button type="submit">Send message</button></li>
+                                    </ul>
                                 </form>
-                                <ul className="actions">
-                                    <li><button type="submit">Send</button></li>
-                                </ul>
+                                
                             </div>
                             <div className="4u 12u$(small)">
                                 <ul className="labeled-icons">
@@ -147,7 +148,5 @@ class HomeIndex extends React.Component {
         )
     }
 }
-
-
 
 export default HomeIndex
