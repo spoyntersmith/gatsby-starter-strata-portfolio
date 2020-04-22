@@ -107,7 +107,7 @@ class HomeIndex extends React.Component {
                         <div className="row">
                             <div className="8u 12u$(small)">
                                 
-                                <form name="contact" method="post" action="/success" data-netlify="true" data-netlify-honeypot="bot-field" data-netlify-recaptcha="true" >
+                                <form name="contact" onSubmit={this.handleSubmit} data-netlify="true" data-netlify-honeypot="bot-field" data-netlify-recaptcha="true" >
                                 <input type="hidden" name="bot-field" />
                                 <input type="hidden" name="form-name" value="contact" />
                                 
