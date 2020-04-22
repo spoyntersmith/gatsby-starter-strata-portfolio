@@ -5,35 +5,62 @@ import Layout from '../components/layout'
 // import Lightbox from 'react-images'
 // import Gallery from '../components/Gallery'
 
-import thumb01 from '../assets/images/thumbs/01.jpg'
-import thumb02 from '../assets/images/thumbs/02.jpg'
-import thumb03 from '../assets/images/thumbs/03.jpg'
-import thumb04 from '../assets/images/thumbs/04.jpg'
-import thumb05 from '../assets/images/thumbs/05.jpg'
-import thumb06 from '../assets/images/thumbs/06.jpg'
+// import thumb01 from '../assets/images/thumbs/01.jpg'
+// import thumb02 from '../assets/images/thumbs/02.jpg'
+// import thumb03 from '../assets/images/thumbs/03.jpg'
+// import thumb04 from '../assets/images/thumbs/04.jpg'
+// import thumb05 from '../assets/images/thumbs/05.jpg'
+// import thumb06 from '../assets/images/thumbs/06.jpg'
 
-import full01 from '../assets/images/fulls/01.jpg'
-import full02 from '../assets/images/fulls/02.jpg'
-import full03 from '../assets/images/fulls/03.jpg'
-import full04 from '../assets/images/fulls/04.jpg'
-import full05 from '../assets/images/fulls/05.jpg'
-import full06 from '../assets/images/fulls/06.jpg'
+// import full01 from '../assets/images/fulls/01.jpg'
+// import full02 from '../assets/images/fulls/02.jpg'
+// import full03 from '../assets/images/fulls/03.jpg'
+// import full04 from '../assets/images/fulls/04.jpg'
+// import full05 from '../assets/images/fulls/05.jpg'
+// import full06 from '../assets/images/fulls/06.jpg'
 
-const DEFAULT_IMAGES = [
-    { id: '1', source: full01, thumbnail: thumb01, caption: 'Photo 1', description: 'Lorem ipsum dolor sit amet nisl sed nullam feugiat.'},
-    { id: '2', source: full02, thumbnail: thumb02, caption: 'Photo 2', description: 'Lorem ipsum dolor sit amet nisl sed nullam feugiat.'},
-    { id: '3', source: full03, thumbnail: thumb03, caption: 'Photo 3', description: 'Lorem ipsum dolor sit amet nisl sed nullam feugiat.'},
-    { id: '4', source: full04, thumbnail: thumb04, caption: 'Photo 4', description: 'Lorem ipsum dolor sit amet nisl sed nullam feugiat.'},
-    { id: '5', source: full05, thumbnail: thumb05, caption: 'Photo 5', description: 'Lorem ipsum dolor sit amet nisl sed nullam feugiat.'},
-    { id: '6', source: full06, thumbnail: thumb06, caption: 'Photo 6', description: 'Lorem ipsum dolor sit amet nisl sed nullam feugiat.'}
-];
+// const DEFAULT_IMAGES = [
+//     { id: '1', source: full01, thumbnail: thumb01, caption: 'Photo 1', description: 'Lorem ipsum dolor sit amet nisl sed nullam feugiat.'},
+//     { id: '2', source: full02, thumbnail: thumb02, caption: 'Photo 2', description: 'Lorem ipsum dolor sit amet nisl sed nullam feugiat.'},
+//     { id: '3', source: full03, thumbnail: thumb03, caption: 'Photo 3', description: 'Lorem ipsum dolor sit amet nisl sed nullam feugiat.'},
+//     { id: '4', source: full04, thumbnail: thumb04, caption: 'Photo 4', description: 'Lorem ipsum dolor sit amet nisl sed nullam feugiat.'},
+//     { id: '5', source: full05, thumbnail: thumb05, caption: 'Photo 5', description: 'Lorem ipsum dolor sit amet nisl sed nullam feugiat.'},
+//     { id: '6', source: full06, thumbnail: thumb06, caption: 'Photo 6', description: 'Lorem ipsum dolor sit amet nisl sed nullam feugiat.'}
+// ];
+
+const encode = (data) => {
+    return Object.keys(data)
+        .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
+        .join("&");
+  }
 
 class HomeIndex extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = { name: "", email: "", message: "" };
+    }
+
+    handleSubmit = e => {
+        fetch("/", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: encode({ "form-name": "contact", ...this.state })
+        })
+          .then(() => alert("Success!"))
+          .catch(error => alert(error));
+  
+        e.preventDefault();
+      };
+  
+    handleChange = e => this.setState({ [e.target.name]: e.target.value });
+  
 
     render() {
         const siteTitle = "Séan Poynter-Smith"
         const siteDescription = "Personal site for a Web Developer in Windsor, UK"
-
+        const { name, email, message } = this.state;
+ 
         return (
             <Layout>
                 <Helmet>
@@ -71,7 +98,7 @@ class HomeIndex extends React.Component {
 
                     <section id="three">
                         <h2>Get in touch</h2>
-                        <form name="contact" netlify netlify-honeypot="bot-field" hidden>
+                        <form name="contact" netlify="true" netlify-honeypot="bot-field" hidden>
                             <input type="text" name="name" />
                             <input type="email" name="email" />
                             <textarea name="message"></textarea>
@@ -85,14 +112,14 @@ class HomeIndex extends React.Component {
                                 <input type="hidden" name="form-name" value="contact" />
                                 
                                     <div className="row uniform 50%">
-                                        <div className="6u 12u$(xsmall)"><input type="text" name="name" id="name" placeholder="Name" /></div>
-                                        <div className="6u 12u$(xsmall)"><input type="email" name="email" id="email" placeholder="Email" /></div>
-                                        <div className="12u"><textarea name="message" id="message" placeholder="Message" rows="4"></textarea></div>
+                                        <div className="6u 12u$(xsmall)"><input type="text" name="name" id="name" value={name} onChange={this.handleChange} placeholder="Name" /></div>
+                                        <div className="6u 12u$(xsmall)"><input type="email" name="email" id="email" value={email} onChange={this.handleChange} placeholder="Email" /></div>
+                                        <div className="12u"><textarea name="message" id="message" value={message} onChange={this.handleChange} placeholder="Message" rows="4"></textarea></div>
                                     </div>
                                     <div data-netlify-recaptcha="true"></div>
                                 </form>
                                 <ul className="actions">
-                                    <li><input type="submit" value="Send message" /></li>
+                                    <li><button type="submit">Send</button></li>
                                 </ul>
                             </div>
                             <div className="4u 12u$(small)">
@@ -120,5 +147,7 @@ class HomeIndex extends React.Component {
         )
     }
 }
+
+
 
 export default HomeIndex
