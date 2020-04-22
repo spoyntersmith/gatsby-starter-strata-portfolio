@@ -1,5 +1,6 @@
 import React from 'react'
 import Helmet from 'react-helmet'
+import Recaptcha from 'react-google-recaptcha'
 
 import Layout from '../components/layout'
 // import Lightbox from 'react-images'
@@ -28,6 +29,8 @@ import Layout from '../components/layout'
 //     { id: '6', source: full06, thumbnail: thumb06, caption: 'Photo 6', description: 'Lorem ipsum dolor sit amet nisl sed nullam feugiat.'}
 // ];
 
+const RECAPTCHA_KEY = process.env.SITE_RECAPTCHA_KEY;
+
 const encode = (data) => {
     return Object.keys(data)
         .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
@@ -42,25 +45,30 @@ class HomeIndex extends React.Component {
     }
 
     handleSubmit = e => {
+        e.preventDefault();
+        
         fetch("/", {
           method: "POST",
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
           body: encode({ "form-name": "contact", ...this.state })
         })
           .then(() => alert("Success!"))
+          
           .catch(error => alert(error));
-  
-        e.preventDefault();
+      };
+
+      handleRecaptcha = value => {
+        this.setState({ "g-recaptcha-response": value });
       };
   
     handleChange = e => this.setState({ [e.target.name]: e.target.value });
   
 
     render() {
-        const siteTitle = "Séan Poynter-Smith"
-        const siteDescription = "Personal site for a Web Developer in Windsor, UK"
+        const siteTitle = "Séan Poynter-Smith";
+        const siteDescription = "Personal site for a Web Developer in Windsor, UK";
         const { name, email, message } = this.state;
- 
+
         return (
             <Layout>
                 <Helmet>
@@ -107,7 +115,7 @@ class HomeIndex extends React.Component {
                         <div className="row">
                             <div className="8u 12u$(small)">
                                 
-                                <form name="contact" method="post" action="/success" data-netlify="true" data-netlify-honeypot="bot-field" data-netlify-recaptcha="true" >
+                                <form name="contact" onSubmit={this.handleSubmit} data-netlify="true" data-netlify-honeypot="bot-field" data-netlify-recaptcha="true" >
                                 <input type="hidden" name="bot-field" />
                                 <input type="hidden" name="form-name" value="contact" />
                                 
@@ -116,7 +124,9 @@ class HomeIndex extends React.Component {
                                         <div className="6u 12u$(xsmall)"><input type="email" name="email" id="email" value={email} onChange={this.handleChange} placeholder="Email" /></div>
                                         <div className="12u"><textarea name="message" id="message" value={message} onChange={this.handleChange} placeholder="Message" rows="4"></textarea></div>
                                     </div>
-                                    <div data-netlify-recaptcha="true"></div>
+                                    <Recaptcha ref="recaptcha"
+                                        sitekey={RECAPTCHA_KEY}
+                                        onChange={this.handleRecaptcha} />
                                     <ul className="actions">
                                         <li><button type="submit">Send message</button></li>
                                     </ul>
