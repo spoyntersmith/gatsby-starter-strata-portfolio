@@ -30,7 +30,7 @@ import Layout from '../components/layout'
 //     { id: '6', source: full06, thumbnail: thumb06, caption: 'Photo 6', description: 'Lorem ipsum dolor sit amet nisl sed nullam feugiat.'}
 // ];
 
-const RECAPTCHA_KEY = '6Ld1fucUAAAAAKs5gymAvuu3mNFpOGOr1k8XVszW';
+const RECAPTCHA_KEY = process.env.SITE_RECAPTCHA_KEY;
 
 const encode = (data) => {
     return Object.keys(data)
