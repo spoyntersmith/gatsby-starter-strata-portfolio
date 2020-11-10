@@ -8,13 +8,13 @@ class Header extends React.Component {
         return (
             <header id="header">
                 <div className="inner">
-                    <a href="#" className="image avatar"><img src={avatar} alt="Picture of Séan" /></a>
-                    <h1><strong>I am Séan</strong>, freelance developer,<br/>
-                    student at the Open University and<br />
-                    member of a socially-engaged Buddhist movement.
-                    </h1>
+                    <button className="image avatar"><img src={avatar} alt="Séan Poynter-Smith"/></button>
+                    <h1><strong>Hi 😀, I am Séan</strong></h1>
+                    <p>Laravel, WordPress and WooCommerce Developer,<br/>
+                        currently studying at Open University and<br/>
+                        member of a socially-engaged Buddhist movement.</p>
                 </div>
-                <Footer />
+                <Footer/>
             </header>
         )
     }

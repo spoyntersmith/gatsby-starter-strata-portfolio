@@ -1,6 +1,7 @@
 import React from 'react'
 import Helmet from 'react-helmet'
 import Recaptcha from 'react-google-recaptcha'
+import {navigate} from "gatsby"
 
 import Layout from '../components/layout'
 // import Lightbox from 'react-images'
@@ -29,51 +30,51 @@ import Layout from '../components/layout'
 //     { id: '6', source: full06, thumbnail: thumb06, caption: 'Photo 6', description: 'Lorem ipsum dolor sit amet nisl sed nullam feugiat.'}
 // ];
 
-const RECAPTCHA_KEY = process.env.SITE_RECAPTCHA_KEY;
+const RECAPTCHA_KEY = '6Ld1fucUAAAAAKs5gymAvuu3mNFpOGOr1k8XVszW';
 
 const encode = (data) => {
     return Object.keys(data)
         .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
         .join("&");
-  }
+}
 
 class HomeIndex extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { name: "", email: "", message: "" };
+        this.state = {name: "", email: "", message: ""};
     }
 
     handleSubmit = e => {
         e.preventDefault();
-        
-        fetch("/", {
-          method: "POST",
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          body: encode({ "form-name": "contact", ...this.state })
-        })
-          .then(() => alert("Success!"))
-          
-          .catch(error => alert(error));
-      };
 
-      handleRecaptcha = value => {
-        this.setState({ "g-recaptcha-response": value });
-      };
-  
-    handleChange = e => this.setState({ [e.target.name]: e.target.value });
-  
+        fetch("/", {
+            method: "POST",
+            headers: {"Content-Type": "application/x-www-form-urlencoded"},
+            body: encode({"form-name": "contact", ...this.state})
+        })
+            .then(() => navigate("/success/"))
+
+            .catch(error => alert(error));
+    };
+
+    handleRecaptcha = value => {
+        this.setState({"g-recaptcha-response": value});
+    };
+
+    handleChange = e => this.setState({[e.target.name]: e.target.value});
+
 
     render() {
         const siteTitle = "Séan Poynter-Smith";
         const siteDescription = "Personal site for a Web Developer in Windsor, UK";
-        const { name, email, message } = this.state;
+        const {name, email, message} = this.state;
 
         return (
             <Layout>
                 <Helmet>
-                        <title>{siteTitle}</title>
-                        <meta name="description" content={siteDescription} />
+                    <title>{siteTitle}</title>
+                    <meta name="description" content={siteDescription}/>
                 </Helmet>
 
                 <div id="main">
@@ -107,31 +108,42 @@ class HomeIndex extends React.Component {
                     <section id="three">
                         <h2>Get in touch</h2>
                         <form name="contact" netlify="true" netlify-honeypot="bot-field" hidden>
-                            <input type="text" name="name" />
-                            <input type="email" name="email" />
+                            <input type="text" name="name"/>
+                            <input type="email" name="email"/>
                             <textarea name="message"></textarea>
                         </form>
                         {/* <p>Accumsan pellentesque commodo blandit enim arcu non at amet id arcu magna. Accumsan orci faucibus id eu lorem semper nunc nisi lorem vulputate lorem neque lorem ipsum dolor.</p> */}
                         <div className="row">
                             <div className="8u 12u$(small)">
-                                
-                                <form name="contact" onSubmit={this.handleSubmit} data-netlify="true" data-netlify-honeypot="bot-field" data-netlify-recaptcha="true" >
-                                <input type="hidden" name="bot-field" />
-                                <input type="hidden" name="form-name" value="contact" />
-                                
+
+                                <form name="contact" onSubmit={this.handleSubmit} data-netlify="true"
+                                      data-netlify-honeypot="bot-field" data-netlify-recaptcha="true">
+                                    <input type="hidden" name="bot-field"/>
+                                    <input type="hidden" name="form-name" value="contact"/>
+
                                     <div className="row uniform 50%">
-                                        <div className="6u 12u$(xsmall)"><input type="text" name="name" id="name" value={name} onChange={this.handleChange} placeholder="Name" /></div>
-                                        <div className="6u 12u$(xsmall)"><input type="email" name="email" id="email" value={email} onChange={this.handleChange} placeholder="Email" /></div>
-                                        <div className="12u"><textarea name="message" id="message" value={message} onChange={this.handleChange} placeholder="Message" rows="4"></textarea></div>
+                                        <div className="6u 12u$(xsmall)"><input type="text" name="name" id="name"
+                                                                                value={name}
+                                                                                onChange={this.handleChange}
+                                                                                placeholder="Name"/></div>
+                                        <div className="6u 12u$(xsmall)"><input type="email" name="email" id="email"
+                                                                                value={email}
+                                                                                onChange={this.handleChange}
+                                                                                placeholder="Email"/></div>
+                                        <div className="12u"><textarea name="message" id="message" value={message}
+                                                                       onChange={this.handleChange}
+                                                                       placeholder="Message" rows="4"></textarea></div>
                                     </div>
                                     <Recaptcha ref="recaptcha"
-                                        sitekey={RECAPTCHA_KEY}
-                                        onChange={this.handleRecaptcha} />
+                                               sitekey={RECAPTCHA_KEY}
+                                               onChange={this.handleRecaptcha}/>
                                     <ul className="actions">
-                                        <li><button type="submit">Send message</button></li>
+                                        <li>
+                                            <button type="submit">Send message</button>
+                                        </li>
                                     </ul>
                                 </form>
-                                
+
                             </div>
                             <div className="4u 12u$(small)">
                                 <ul className="labeled-icons">
