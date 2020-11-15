@@ -42,7 +42,7 @@ class HomeIndex extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {name: "", email: "", message: ""};
+        this.state = {name: "", email: "", message: "", disableSubmit: true};
     }
 
     handleSubmit = e => {
@@ -60,6 +60,7 @@ class HomeIndex extends React.Component {
 
     handleRecaptcha = value => {
         this.setState({"g-recaptcha-response": value});
+        this.setState({"disableSubmit": false});
     };
 
     handleChange = e => this.setState({[e.target.name]: e.target.value});
@@ -68,7 +69,7 @@ class HomeIndex extends React.Component {
     render() {
         const siteTitle = "Séan Poynter-Smith";
         const siteDescription = "Personal site for a Web Developer in Windsor, UK";
-        const {name, email, message} = this.state;
+        const {name, email, message, disableSubmit} = this.state;
 
         return (
             <Layout>
@@ -139,7 +140,7 @@ class HomeIndex extends React.Component {
                                                onChange={this.handleRecaptcha}/>
                                     <ul className="actions">
                                         <li>
-                                            <button type="submit">Send message</button>
+                                            <button type="submit" disabled={disableSubmit}>Send message</button>
                                         </li>
                                     </ul>
                                 </form>
