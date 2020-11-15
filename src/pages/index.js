@@ -47,15 +47,19 @@ class HomeIndex extends React.Component {
 
     handleSubmit = e => {
         e.preventDefault();
+        if (!this.state.disableSubmit) {
+            fetch("/", {
+                method: "POST",
+                headers: {"Content-Type": "application/x-www-form-urlencoded"},
+                body: encode({"form-name": "contact", ...this.state})
+            })
+                .then(() => navigate("/success/"))
 
-        fetch("/", {
-            method: "POST",
-            headers: {"Content-Type": "application/x-www-form-urlencoded"},
-            body: encode({"form-name": "contact", ...this.state})
-        })
-            .then(() => navigate("/success/"))
-
-            .catch(error => alert(error));
+                .catch(error => alert(error));
+        } else {
+            // add red border if recaptcha not ticked
+            document.getElementById("reCaptcha").firstChild.firstChild.style.border = "2px solid red";
+        }
     };
 
     handleRecaptcha = value => {
@@ -134,10 +138,12 @@ class HomeIndex extends React.Component {
                                         <div className="12u"><textarea name="message" id="message" value={message}
                                                                        onChange={this.handleChange}
                                                                        placeholder="Message" rows="4"></textarea></div>
+                                        <div className="12u" id="reCaptcha"><Recaptcha ref="recaptcha"
+                                                                                       sitekey={RECAPTCHA_KEY}
+                                                                                       onChange={this.handleRecaptcha}/>
+                                        </div>
                                     </div>
-                                    <Recaptcha ref="recaptcha"
-                                               sitekey={RECAPTCHA_KEY}
-                                               onChange={this.handleRecaptcha}/>
+
                                     <ul className="actions">
                                         <li>
                                             <button type="submit" disabled={disableSubmit}>Send message</button>
